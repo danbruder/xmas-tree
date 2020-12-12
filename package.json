@@ -2,5 +2,11 @@
   "name": "tree",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "elm-app build"
+  },
+  "dependencies": {
+    "create-elm-app": "^5.22.0"
+  }
 }

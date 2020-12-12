@@ -1,8 +1,9 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+
 
 
 ---- MODEL ----
@@ -36,9 +37,8 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ img [ src "/logo.svg" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+    div [ class "flex justify-center relative" ]
+        [ div [ class "w-10 h-10 bg-red-500" ] []
         ]
 
 
@@ -54,3 +54,9 @@ main =
         , update = update
         , subscriptions = always Sub.none
         }
+
+
+dragons =
+    [ "red1.jpg"
+    , "green1.gif"
+    ]

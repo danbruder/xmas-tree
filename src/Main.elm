@@ -3,6 +3,8 @@ module Main exposing (..)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Set exposing (Set)
 
 
 
@@ -10,12 +12,16 @@ import Html.Attributes exposing (..)
 
 
 type alias Model =
-    {}
+    { orn : Set String
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { orn = Set.empty
+      }
+    , Cmd.none
+    )
 
 
 
@@ -23,12 +29,23 @@ init =
 
 
 type Msg
-    = NoOp
+    = Clicked String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        Clicked url ->
+            ( { model
+                | orn =
+                    if Set.member url model.orn then
+                        Set.remove url model.orn
+
+                    else
+                        Set.insert url model.orn
+              }
+            , Cmd.none
+            )
 
 
 
@@ -38,7 +55,23 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ class "flex justify-center relative" ]
-        [ div [ class "w-10 h-10 bg-red-500" ] []
+        [ img [ src "tree.jpg" ] []
+        , dragons |> List.map (\d -> viewOrn (Set.member d.url model.orn) d) |> div []
+        ]
+
+
+viewOrn visible config =
+    div
+        [ onClick (Clicked config.url)
+        , class "w-20 h-20 z-10 absolute "
+        , style "top" (String.fromInt config.top ++ "px")
+        , style "left" (String.fromInt config.left ++ "px")
+        ]
+        [ if visible then
+            img [ src config.url ] []
+
+          else
+            span [] []
         ]
 
 
@@ -57,6 +90,6 @@ main =
 
 
 dragons =
-    [ "red1.jpg"
-    , "green1.gif"
+    [ { url = "red1.jpg", top = 422, left = 600 }
+    , { url = "green1.gif", top = 275, left = 730 }
     ]
